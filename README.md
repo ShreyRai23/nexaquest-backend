@@ -1,59 +1,75 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🌟 MindBloom API — Backend Core
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12.0-red) ![PHP](https://img.shields.io/badge/PHP-8.2-blue) ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange) ![Gemini API](https://img.shields.io/badge/AI-Google_Gemini-purple)
 
-## About Laravel
+**MindBloom API** is the robust, server-side engine powering the MindBloom AI platform. Built with Laravel 12, it handles real-time gamification logic, stateless JWT authentication, complex psychometric reporting, and secure integration with the Google Gemini AI for personalized mentorship.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Key Features
+- **🎮 Gamification Engine:** Server-side validation and state management for daily missions, quizzes, dynamic XP awards, and achievement unlocks.
+- **🤖 Gemini AI Integration:** Deeply integrated with the Google Gemini API to power "Bloomy" — generating real-time quiz questions, offering empathetic chat responses, and synthesizing comprehensive psychometric reports.
+- **🔐 Role-Based Auth (JWT):** Stateless, token-based authentication separating `child` and `parent` roles, ensuring secure API access and data isolation.
+- **📊 Reporting System:** Automated PDF generation for parents detailing a child's skill progress, career recommendations, and cognitive strengths.
+- **🚀 Cloud-Ready:** Infrastructure-as-Code ready with `render.yaml` for seamless deployment on Render.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tech Stack
+- **Framework:** [Laravel 12](https://laravel.com/)
+- **Language:** PHP 8.2+
+- **Database:** MySQL
+- **Authentication:** `tymon/jwt-auth`
+- **PDF Generation:** `barryvdh/laravel-dompdf`
+- **AI Integration:** Direct REST integration with `generativelanguage.googleapis.com`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Getting Started Locally
 
-## Learning Laravel
+### Prerequisites
+Make sure you have [PHP 8.2+](https://windows.php.net/), [Composer](https://getcomposer.org/), and a MySQL server (like XAMPP) running.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ShreyRai23/mindbloom-api.git
+   cd mindbloom-api
+   ```
+2. Install dependencies:
+   ```bash
+   composer install
+   ```
+3. Set up environment variables:
+   Copy the example environment file and generate your application keys:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   php artisan jwt:secret
+   ```
+4. Database setup:
+   Create a local MySQL database named `mindbloom_db`. Update your `.env` file with the database credentials, then run the migrations and seeders to populate initial data:
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+5. Configure API Keys:
+   In your `.env` file, add your Google Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_actual_key_here
+   FRONTEND_URL=http://localhost:5173
+   ```
+6. Start the local server:
+   ```bash
+   php artisan serve
+   ```
+   The API will be available at `http://localhost:8000/api`.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🌐 Production Deployment (Render)
 
-## Laravel Sponsors
+This backend is fully configured for automated deployment on **Render.com**.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Connect this GitHub repository to Render as a **New Blueprint**.
+2. Render will read the included `render.yaml` file to automatically provision:
+   - A PHP Web Service (running `php artisan serve`).
+   - A free MySQL database instance.
+3. Once provisioned, open the Web Service settings in the Render dashboard and set the remaining environment variables:
+   - `FRONTEND_URL` (Your Vercel frontend URL)
+   - `GEMINI_API_KEY` (Your private API key)
+4. Your API is live!
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+*Built with ❤️ for the future of learning.*
