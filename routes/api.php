@@ -77,6 +77,7 @@ Route::middleware('auth:api')->group(function () {
     // Parent-only routes
     Route::middleware('role:parent')->group(function () {
         Route::get('/parent/dashboard',                    [ParentController::class, 'dashboard']);
+        Route::post('/parent/children',                    [ParentController::class, 'createChild']);
         Route::get('/parent/children/{id}',                [ParentController::class, 'childDetail']);
         Route::get('/parent/children/{id}/progress',       [ParentController::class, 'childProgress']);
         Route::post('/parent/link/{childId}',              [ParentController::class, 'linkChild']);

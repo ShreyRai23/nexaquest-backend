@@ -252,4 +252,42 @@ class ParentController extends Controller
         $child->update(['parent_id' => $parent->id]);
         return response()->json(['message' => 'Child linked successfully! 👨‍👧']);
     }
+
+    public function createChild(\Illuminate\Http\Request $request)
+    {
+        $parent = auth('api')->user();
+        if ($parent->role !== 'parent') {
+            return response()->json(['message' => 'Only parents can create child accounts.'], 403);
+        }
+
+        $v = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email|unique:users',
+            'password'  => 'required|string|min:6',
+            'hero_name' => 'nullable|string|max:50',
+            'age'       => 'nullable|integer|min:5|max:20',
+        ]);
+
+        if ($v->fails()) return response()->json(['errors' => $v->errors()], 422);
+
+        $user = \App\Models\User::create([
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'password'     => $request->password,
+            'role'         => 'child',
+            'avatar_emoji' => '🦊',
+        ]);
+
+        $childProfile = ChildProfile::create([
+            'user_id'   => $user->id,
+            'parent_id' => $parent->id,
+            'hero_name' => $request->hero_name ?? $request->name,
+            'age'       => $request->age,
+        ]);
+
+        return response()->json([
+            'message' => 'Child profile created successfully! 🌟',
+            'child'   => $childProfile->load('user'),
+        ], 201);
+    }
 }
