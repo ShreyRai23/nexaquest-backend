@@ -31,9 +31,9 @@ RUN chown -R www-data:www-data /app \
 
 # Start the Laravel application using artisan serve
 # $PORT is injected by Render automatically
-CMD php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache && \
-    php artisan migrate --force && \
-    php artisan db:seed --force && \
+CMD php artisan config:cache ; \
+    php artisan route:cache ; \
+    php artisan view:cache ; \
+    php artisan migrate --force ; \
+    php artisan db:seed --force ; \
     php artisan serve --host=0.0.0.0 --port=$PORT
