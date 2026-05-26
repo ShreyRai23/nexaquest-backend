@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
     public function getProfileImageUrlAttribute()
     {
         if ($this->profile_image_path) {
-            return secure_asset('storage/' . $this->profile_image_path);
+            return asset('storage/' . $this->profile_image_path);
         }
         return null;
     }

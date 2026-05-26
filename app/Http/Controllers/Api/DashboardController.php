@@ -34,9 +34,25 @@ class DashboardController extends Controller
         // Update streak
         $streakResult = $this->gamification->updateStreak($child);
 
-        $todayXP = $child->quizAttempts()
+        // Sum XP from all sources today:
+        // 1. Quiz attempts completed today
+        $quizXP = $child->quizAttempts()
             ->whereDate('completed_at', now()->toDateString())
             ->sum('xp_earned');
+
+        // 2. Achievements unlocked today (their xp_bonus)
+        $achievementXP = $child->userAchievements()
+            ->with('achievement')
+            ->whereDate('unlocked_at', now()->toDateString())
+            ->get()
+            ->sum(fn($ua) => $ua->achievement?->xp_bonus ?? 0);
+
+        // 3. Streak bonus earned today
+        $streakXP = \App\Models\DailyStreak::where('child_profile_id', $child->id)
+            ->whereDate('streak_date', now()->toDateString())
+            ->sum('xp_earned');
+
+        $todayXP = $quizXP + $achievementXP + $streakXP;
 
         return response()->json([
             'child' => [
